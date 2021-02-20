@@ -1,0 +1,28 @@
+syntax = "proto3";
+option go_package = ".;pb";
+
+message User{
+    string id = 1;
+    string name = 2;
+    string email = 3;
+}
+
+message UserResultStream{
+    string status = 1;
+    User user = 2;
+}
+
+message Users{
+    repeated User user = 1;
+}
+
+service UserService{
+    //unary
+    rpc AddUser (User) returns (User);
+    //stream server side
+    rpc AddUserVerbose (User) returns (stream UserResultStream);
+    //stream client side
+    rpc AddUsers (stream User) returns (Users);
+     //stream Bidirectional
+    rpc AddUsersStreamBoth (stream User) returns (stream UserResultStream);
+}
